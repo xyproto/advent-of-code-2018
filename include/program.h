@@ -1,5 +1,6 @@
 #pragma once
 
+#include "util.h"
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -7,15 +8,14 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include "util.h"
 
-using std::vector;
-using std::string;
-using std::ifstream;
 using std::cout;
 using std::endl;
-using std::stringstream;
+using std::ifstream;
 using std::nullopt;
+using std::string;
+using std::stringstream;
+using std::vector;
 
 using position_t = unsigned int;
 using counter_t = unsigned int;
@@ -44,5 +44,4 @@ public:
     int run(const unsigned int max_steps);
     int run(); // run silently and potentially in an endless loop
     string get_program_type();
-
 };

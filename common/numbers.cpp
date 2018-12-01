@@ -3,48 +3,50 @@
 using std::string;
 using std::vector;
 
-Numbers::Numbers(string fn) {
+Numbers::Numbers(string fn)
+{
     string line;
-    ifstream infile {fn, ifstream::in};
+    ifstream infile { fn, ifstream::in };
     if (infile.is_open()) {
         while (getline(infile, line)) {
-            istringstream is {line};
-            _numbers.push_back(
-                vector<int>(istream_iterator<int>(is),
-                            istream_iterator<int>()));
+            istringstream is { line };
+            _numbers.push_back(vector<int>(istream_iterator<int>(is), istream_iterator<int>()));
         }
     }
 }
 
 // Initialize a new 2d vector with 0
-Numbers::Numbers(int w, int h) {
+Numbers::Numbers(int w, int h)
+{
     vector<int> row;
-    for (int i=0; i < w; ++i) {
+    for (int i = 0; i < w; ++i) {
         row.push_back(0);
     }
-    for (int i=0; i < h; ++i) {
+    for (int i = 0; i < h; ++i) {
         _numbers.push_back(row);
     }
 }
 
-Numbers::Numbers(int w) {
-   vector<int> row;
-   for (int i=0; i < w; ++i) {
-       row.push_back(0);
-   }
-   for (int i=0; i < w; ++i) {
-       _numbers.push_back(row);
-   }
+Numbers::Numbers(int w)
+{
+    vector<int> row;
+    for (int i = 0; i < w; ++i) {
+        row.push_back(0);
+    }
+    for (int i = 0; i < w; ++i) {
+        _numbers.push_back(row);
+    }
 }
 
-string Numbers::str() {
+string Numbers::str()
+{
     stringstream s;
     s << this->width() << "x" << this->height() << " vector of ints: " << endl;
-    for (const vector<int> &row : _numbers) {
+    for (const vector<int>& row : _numbers) {
         auto counter = row.size() - 1;
-        for (const int &i : row) {
+        for (const int& i : row) {
             s << i;
-            if (counter --> 0) { // "go to" operator ;)
+            if (counter-- > 0) { // "go to" operator ;)
                 s << ", ";
             }
         }
@@ -53,32 +55,33 @@ string Numbers::str() {
     return s.str();
 }
 
-bool Numbers::empty() {
-    return _numbers.size() == 0;
-}
+bool Numbers::empty() { return _numbers.size() == 0; }
 
-size_t Numbers::width() {
+size_t Numbers::width()
+{
     if (this->empty()) {
         return 0;
     }
     return _numbers[0].size();
 }
 
-size_t Numbers::height() {
+size_t Numbers::height()
+{
     if (this->empty()) {
         return 0;
     }
     return _numbers.size();
 }
 
-vector<int> Numbers::maxes() {
+vector<int> Numbers::maxes()
+{
     vector<int> maxes;
     if (this->empty()) {
         return maxes;
     }
-    for (const vector<int> &v : _numbers) {
+    for (const vector<int>& v : _numbers) {
         int max = v[0];
-        for (const int &i : v) {
+        for (const int& i : v) {
             if (i > max) {
                 max = i;
             }
@@ -88,14 +91,15 @@ vector<int> Numbers::maxes() {
     return maxes;
 }
 
-vector<int> Numbers::mins() {
+vector<int> Numbers::mins()
+{
     vector<int> mins;
     if (this->empty()) {
         return mins;
     }
-    for (const vector<int> &v : _numbers) {
+    for (const vector<int>& v : _numbers) {
         int min = v[0];
-        for (const int &i : v) {
+        for (const int& i : v) {
             if (i < min) {
                 min = i;
             }
@@ -105,15 +109,16 @@ vector<int> Numbers::mins() {
     return mins;
 }
 
-vector<int> Numbers::divs() {
+vector<int> Numbers::divs()
+{
     vector<int> divs;
     if (this->empty()) {
         return divs;
     }
-    for (const vector<int> &v : _numbers) {
+    for (const vector<int>& v : _numbers) {
         // Try all combinations of numbers per row
-        for (const int &a : v) {
-            for (const int &b : v) {
+        for (const int& a : v) {
+            for (const int& b : v) {
                 if (a == b) {
                     continue;
                 }
@@ -127,21 +132,48 @@ vector<int> Numbers::divs() {
     return divs;
 }
 
+// seen_twice adds numbers together repeatedly until the intermediate
+// result has been seen twice. Warning: enters a potentially endless loop!
+int64_t Numbers::seen_twice()
+{
+    int64_t x = 0;
+    vector<int64_t> seen {};
+    if (this->empty()) {
+        return x;
+    }
+    for (;;) {
+        for (const vector<int>& v : _numbers) {
+            for (const int& i : v) {
+                x += static_cast<uint64_t>(i);
+                if (!contains(seen, x)) {
+                    // std::cout << x << " has never been seen before!" << std::endl;
+                    seen.push_back(x);
+                } else {
+                    // std::cout << x << " has already been seen!" << std::endl;
+                    return x;
+                }
+            }
+        }
+    }
+}
+
 // sum adds together all numbers, positive or negative
-int64_t Numbers::sum() {
+int64_t Numbers::sum()
+{
     int64_t s = 0;
     if (this->empty()) {
         return s;
     }
-    for (const vector<int> &v : _numbers) {
-        for (const int &i : v) {
+    for (const vector<int>& v : _numbers) {
+        for (const int& i : v) {
             s += static_cast<uint64_t>(i);
         }
     }
     return s;
 }
 
-bool Numbers::set(size_t x, size_t y, int value) {
+bool Numbers::set(size_t x, size_t y, int value)
+{
     if (_numbers.size() <= y) {
         return false;
     }
@@ -152,18 +184,20 @@ bool Numbers::set(size_t x, size_t y, int value) {
     return true;
 }
 
-optional<int> Numbers::get(size_t x, size_t y) {
+optional<int> Numbers::get(size_t x, size_t y)
+{
     if (_numbers.size() <= y) {
         return nullopt;
     }
     if (_numbers[y].size() <= x) {
         return nullopt;
     }
-    return optional {_numbers[y][x]};
+    return optional { _numbers[y][x] };
 }
 
 // the center value, or -1
-int Numbers::center() {
+int Numbers::center()
+{
     auto w2 = this->width() / 2;
     auto h2 = this->height() / 2;
     auto maybeInt = this->get(w2, h2);
@@ -174,14 +208,15 @@ int Numbers::center() {
 }
 
 // finds the position of a value
-optional<p_t> Numbers::find(int value) {
+optional<p_t> Numbers::find(int value)
+{
     if (this->empty()) {
         return nullopt;
     }
     for (size_t y = 0; y < this->height(); ++y) {
         for (size_t x = 0; x < this->width(); ++x) {
             if (_numbers[y][x] == value) {
-                return optional{p_t {x, y}};
+                return optional { p_t { x, y } };
             }
         }
     }
@@ -190,26 +225,30 @@ optional<p_t> Numbers::find(int value) {
 }
 
 // finds the manhattan distance from the value, if found, to the center
-optional<int> Numbers::manhattan(int value) {
+optional<int> Numbers::manhattan(int value)
+{
     auto posMaybe = this->find(value);
     if (posMaybe) {
         auto pos = *posMaybe;
         auto c_x = this->width() / 2;
         auto c_y = this->height() / 2;
-        auto distance = abs(static_cast<int>(pos.first - c_x)) + abs(static_cast<int>(pos.second - c_y));
-        return optional{distance};
+        auto distance
+            = abs(static_cast<int>(pos.first - c_x)) + abs(static_cast<int>(pos.second - c_y));
+        return optional { distance };
     }
     // Not found
     return nullopt;
 }
 
 // Write the value to the same position as the turtle
-bool Numbers::write(Turtle* t, int value) {
+bool Numbers::write(Turtle* t, int value)
+{
     return this->set(static_cast<size_t>(t->x()), static_cast<size_t>(t->y()), value);
 }
 
 // Add a twirl, going from the center and out in spirals
-optional<Numbers*> Numbers::twirl() {
+optional<Numbers*> Numbers::twirl()
+{
     size_t w = this->width();
     size_t h = this->height();
     if (w != h) {
@@ -221,9 +260,9 @@ optional<Numbers*> Numbers::twirl() {
     this->write(&t, counter++);
 
     // Run the turtle round in circles
-    for (size_t i=0; i < w; ++i) {
-        for (uint8_t z=0; z < 2; ++z) {
-            for (size_t x=0; x < i; ++x) {
+    for (size_t i = 0; i < w; ++i) {
+        for (uint8_t z = 0; z < 2; ++z) {
+            for (size_t x = 0; x < i; ++x) {
                 t.move_turn(false);
                 if (!this->write(&t, counter++)) {
                     break;
@@ -235,18 +274,20 @@ optional<Numbers*> Numbers::twirl() {
             }
         }
     }
-    return optional {this};
+    return optional { this };
 }
 
-int Numbers::sum_surrounding(size_t x, size_t y) {
-    optional<int> maybeInt = optional {0};
+int Numbers::sum_surrounding(size_t x, size_t y)
+{
+    optional<int> maybeInt = optional { 0 };
     int sum = 0;
-    for (int iy=-1; iy <= 1; ++iy) {
-        for (int ix=-1; ix <= 1; ++ix) {
+    for (int iy = -1; iy <= 1; ++iy) {
+        for (int ix = -1; ix <= 1; ++ix) {
             if (iy == 0 && ix == 0) {
                 continue;
             }
-            maybeInt = this->get(static_cast<size_t>(x + static_cast<size_t>(ix)), static_cast<size_t>(y + static_cast<size_t>(iy)));
+            maybeInt = this->get(static_cast<size_t>(x + static_cast<size_t>(ix)),
+                static_cast<size_t>(y + static_cast<size_t>(iy)));
             if (maybeInt) {
                 sum += *maybeInt;
             }
@@ -256,7 +297,8 @@ int Numbers::sum_surrounding(size_t x, size_t y) {
 }
 
 // Add a twirl, going from the center and out in spirals, that also sums the surrounding numbers
-optional<Numbers*> Numbers::twirl_sum_surrounding() {
+optional<Numbers*> Numbers::twirl_sum_surrounding()
+{
     size_t w = this->width();
     size_t h = this->height();
     if (w != h) {
@@ -267,9 +309,9 @@ optional<Numbers*> Numbers::twirl_sum_surrounding() {
     this->write(&t, 1);
 
     // Run the turtle round in circles
-    for (size_t i=0; i < w; ++i) {
-        for (uint8_t z=0; z < 2; ++z) {
-            for (size_t x=0; x < i; ++x) {
+    for (size_t i = 0; i < w; ++i) {
+        for (uint8_t z = 0; z < 2; ++z) {
+            for (size_t x = 0; x < i; ++x) {
                 t.move_turn(false);
                 if (!this->write(&t, this->sum_surrounding(t.x(), t.y()))) {
                     break;
@@ -281,11 +323,12 @@ optional<Numbers*> Numbers::twirl_sum_surrounding() {
             }
         }
     }
-    return optional {this};
+    return optional { this };
 }
 
 // Add a twirl, going from the center and out in spirals, that also sums the surrounding numbers
-optional<int> Numbers::twirl_sum_surrounding_quit_after(int q) {
+optional<int> Numbers::twirl_sum_surrounding_quit_after(int q)
+{
     size_t w = this->width();
     size_t h = this->height();
     if (w != h) {
@@ -297,13 +340,13 @@ optional<int> Numbers::twirl_sum_surrounding_quit_after(int q) {
     this->write(&t, value);
 
     // Run the turtle round in circles
-    for (size_t i=0; i < w; ++i) {
-        for (uint8_t z=0; z < 2; ++z) {
-            for (size_t x=0; x < i; ++x) {
+    for (size_t i = 0; i < w; ++i) {
+        for (uint8_t z = 0; z < 2; ++z) {
+            for (size_t x = 0; x < i; ++x) {
                 t.move_turn(false);
                 value = this->sum_surrounding(t.x(), t.y());
                 if (value > q) {
-                    return optional {value};
+                    return optional { value };
                 }
                 if (!this->write(&t, value)) {
                     break;
@@ -312,7 +355,7 @@ optional<int> Numbers::twirl_sum_surrounding_quit_after(int q) {
             t.move_turn(true);
             value = this->sum_surrounding(t.x(), t.y());
             if (value > q) {
-                return optional {value};
+                return optional { value };
             }
             if (!this->write(&t, value)) {
                 break;
@@ -322,7 +365,8 @@ optional<int> Numbers::twirl_sum_surrounding_quit_after(int q) {
     return nullopt; // not found
 }
 
-int next_twirl_sum_number(int size, int value) {
+int next_twirl_sum_number(int size, int value)
+{
     auto n = Numbers(size);
     return must(n.twirl_sum_surrounding_quit_after(value), -1);
 }

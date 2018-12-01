@@ -1,7 +1,8 @@
-#include "test.h"
 #include "stringutils.h"
+#include "test.h"
 
-void stringutils_test() {
+void stringutils_test()
+{
     equal(split("hi->hello"s, "->"s).first, "hi"s);
     equal(split("hi->hello"s, "->"s).second, "hello"s);
     equal(splitv("hi->hello->there->you"s, "->"s)[2], "there"s);
@@ -13,7 +14,8 @@ void stringutils_test() {
     equal(between("sfdsfd (abc) sfdsdf", '(', ')'), "abc"s);
 }
 
-int main() {
+int main()
+{
     stringutils_test();
     return 0;
 }

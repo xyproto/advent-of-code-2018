@@ -1,19 +1,20 @@
-#include "vectorfield.h"
-#include "turtle.h"
 #include "test.h"
+#include "turtle.h"
+#include "vectorfield.h"
 
-using std::pair;
 using std::cout;
 using std::endl;
+using std::pair;
 
-void vf_test() {
+void vf_test()
+{
     // Create a 3x3 vectorfield
     auto vf = Vectorfield(3, 3);
 
     // Test basic set and get for the vectorfield
-    pair<int, int> v {1, 1};
+    pair<int, int> v { 1, 1 };
     vf.set(1, 1, v);
-    auto maybePair = vf.get(1,1);
+    auto maybePair = vf.get(1, 1);
     if (maybePair) {
         equal(*maybePair, v);
     } else {
@@ -25,7 +26,8 @@ void vf_test() {
     cout << vf.str() << endl;
 }
 
-void turtle_vf_test() {
+void turtle_vf_test()
+{
     auto n = Numbers("vectorfield_input.txt");
     cout << n.str() << endl;
 
@@ -47,10 +49,10 @@ void turtle_vf_test() {
     //
     // So:  1 1,  0 1  0 1,  0 0 1  0 0 1,  0 0 0 1  0 0 0 1, 0 0 0 0 1  0 0 0 0 1
     //
-    for (int i=0; i < 5; ++i) {
-        for (int z=0; z < 2; ++z) {
-            for (int x=0; x < i; ++x) {
-                //cout << "0 ";
+    for (int i = 0; i < 5; ++i) {
+        for (int z = 0; z < 2; ++z) {
+            for (int x = 0; x < i; ++x) {
+                // cout << "0 ";
                 cout << t.str() << endl;
                 t.move_turn(false);
                 if (!vf.write(&t)) {
@@ -58,7 +60,7 @@ void turtle_vf_test() {
                     break;
                 }
             }
-            //cout << "1, ";
+            // cout << "1, ";
             cout << t.str() << endl;
             t.move_turn(true);
             if (!vf.write(&t)) {
@@ -71,7 +73,8 @@ void turtle_vf_test() {
     cout << vf.str() << endl;
 }
 
-void apply_test() {
+void apply_test()
+{
     // Fetch the numbers
     auto n = Numbers("input.txt");
     cout << n.str() << endl;
@@ -96,7 +99,8 @@ void apply_test() {
     }
 }
 
-int main() {
+int main()
+{
     vf_test();
     turtle_vf_test();
     apply_test();

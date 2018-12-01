@@ -1,5 +1,6 @@
 #pragma once
 
+#include "util.h"
 #include <cmath>
 #include <iostream>
 #include <optional>
@@ -7,17 +8,16 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "util.h"
 
-using std::vector;
-using std::string;
+using std::cout;
+using std::endl;
+using std::nullopt;
 using std::optional;
 using std::pair;
-using std::nullopt;
+using std::string;
 using std::stringstream;
-using std::endl;
-using std::cout;
 using std::unordered_map;
+using std::vector;
 
 using index_t = size_t;
 
@@ -35,7 +35,7 @@ public:
     optional<pair<index_t, int>> largest();
 
     // Used together with must(T, U) to return a "not found" value
-    pair<index_t, int> NotFound = pair<index_t, int> {0, -1};
+    pair<index_t, int> NotFound = pair<index_t, int> { 0, -1 };
 
     // Return the largest value, or -1 if not found
     int must_largest_value();
