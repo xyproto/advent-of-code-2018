@@ -1,0 +1,12 @@
+*.swp
+*.tmp
+*.bak
+*~
+
+build-*-*/
+*.pro.user
+*.pro
+
+*.o
+
+d1p1/d1p1
