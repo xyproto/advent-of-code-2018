@@ -1,11 +1,11 @@
 #pragma once
 
-#include <vector>
 #include <optional>
+#include <vector>
 
-using std::vector;
 using std::nullopt;
 using std::optional;
+using std::vector;
 
 // must deal with signed ints for the < 0 check to work
 // returns an unsigned int
@@ -75,3 +75,5 @@ constexpr int must(optional<int> maybeInt)
     }
     return -1;
 }
+
+template <typename T> constexpr size_t len(vector<T> v) { return v.size(); }

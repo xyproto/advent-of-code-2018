@@ -1,6 +1,6 @@
+#include "divutils.h"
 #include "memory.h"
 #include "test.h"
-#include "divutils.h"
 
 using std::cout;
 using std::vector;

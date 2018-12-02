@@ -1,19 +1,19 @@
 #include <algorithm>
 #include <fstream>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <optional>
 
 using std::find_if;
 using std::ifstream;
 using std::isspace;
 using std::istringstream;
+using std::nullopt;
+using std::optional;
 using std::pair;
 using std::string;
 using std::vector;
-using std::optional;
-using std::nullopt;
 
 using namespace std::literals; // for ""s
 

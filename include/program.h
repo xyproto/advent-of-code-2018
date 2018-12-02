@@ -12,10 +12,10 @@ using std::cout;
 using std::endl;
 using std::ifstream;
 using std::nullopt;
+using std::optional;
 using std::string;
 using std::stringstream;
 using std::vector;
-using std::optional;
 
 using position_t = unsigned int;
 using counter_t = unsigned int;
