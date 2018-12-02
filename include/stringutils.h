@@ -175,7 +175,7 @@ inline vector<string> words(const string& line, const char sep = ' ')
     return trimv(splitv(line, sep));
 }
 
-// Split a string into a words
+// Split a string into words
 inline vector<string> splitc(const string& line) { return splitv(line, ' '); }
 
 // Count the number of times a word appears in a list of words
