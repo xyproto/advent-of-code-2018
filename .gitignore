@@ -7,3 +7,9 @@
 *.bak
 build-*-*/
 *.pro.user
+*CMakeFiles*
+*.dblite
+build*-Debug/
+.qmake.stash
+build/
+/.metadata/
