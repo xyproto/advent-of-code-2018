@@ -1,4 +1,5 @@
 #include "numbers.h"
+#include "divutils.h"
 
 using std::string;
 using std::vector;

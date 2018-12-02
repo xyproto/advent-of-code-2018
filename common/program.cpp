@@ -1,4 +1,5 @@
 #include "program.h"
+#include "divutils.h"
 
 Program::Program(const vector<int> instructions, ProgramType program_type)
 {

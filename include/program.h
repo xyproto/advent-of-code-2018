@@ -1,6 +1,5 @@
 #pragma once
 
-#include "util.h"
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -16,6 +15,7 @@ using std::nullopt;
 using std::string;
 using std::stringstream;
 using std::vector;
+using std::optional;
 
 using position_t = unsigned int;
 using counter_t = unsigned int;

@@ -1,17 +1,11 @@
 #pragma once
 
-#include <optional>
 #include <vector>
+#include <optional>
 
+using std::vector;
 using std::nullopt;
 using std::optional;
-using std::string;
-using std::vector;
-
-using namespace std::literals;
-
-// return the last char
-optional<const char> last(const string digits);
 
 // must deal with signed ints for the < 0 check to work
 // returns an unsigned int
@@ -26,17 +20,6 @@ template <typename T, typename U> constexpr T clamp(U i, T length)
         i -= signed_length;
     }
     return static_cast<T>(i);
-}
-
-// Check if a vector contains an element
-template <typename T> auto contains(vector<T> l, T e)
-{
-    for (const T& x : l) {
-        if (x == e) {
-            return true;
-        }
-    }
-    return false;
 }
 
 // convert from 0,1,2,3,4 to for instance 6,7,8,9,0
@@ -62,6 +45,17 @@ template <typename T> optional<T> transform(const T i, const int offset, const T
         return nullopt;
     }
     return optional<T> { v };
+}
+
+// Check if a vector contains an element
+template <typename T> auto contains(vector<T> l, T e)
+{
+    for (const T& x : l) {
+        if (x == e) {
+            return true;
+        }
+    }
+    return false;
 }
 
 // Return the optional value, or the notFoundValue if not

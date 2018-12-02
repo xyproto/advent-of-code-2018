@@ -1,6 +1,5 @@
 #include "numbers.h"
 #include "test.h"
-#include "util.h"
 
 using std::cout;
 

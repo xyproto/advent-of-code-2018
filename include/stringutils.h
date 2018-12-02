@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <optional>
 
 using std::find_if;
 using std::ifstream;
@@ -11,6 +12,8 @@ using std::istringstream;
 using std::pair;
 using std::string;
 using std::vector;
+using std::optional;
+using std::nullopt;
 
 using namespace std::literals; // for ""s
 
@@ -257,4 +260,14 @@ inline const string between(const string& line, const char sep1 = ' ', const cha
 inline unsigned long to_unsigned_long(const string& digits, const unsigned base = 10)
 {
     return stoul(digits, 0, base);
+}
+
+// return the last char
+inline optional<const char> last(const string digits)
+{
+    auto dl = digits.length();
+    if (dl < 1) {
+        return nullopt;
+    }
+    return optional { digits.at(dl - 1) };
 }

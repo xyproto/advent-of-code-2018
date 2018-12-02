@@ -1,4 +1,5 @@
 #include "memory.h"
+#include "divutils.h"
 
 Memory::Memory(vector<int> memory) { _memory = memory; }
 
