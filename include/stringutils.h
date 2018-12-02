@@ -5,10 +5,6 @@
 #include <string>
 #include <vector>
 
-using std::find_if;
-using std::ifstream;
-using std::isspace;
-using std::istringstream;
 using std::nullopt;
 using std::optional;
 using std::pair;
@@ -23,13 +19,13 @@ using namespace std::literals; // for ""s
 // trim from start (in place)
 inline void _ltrim(string& s)
 {
-    s.erase(s.begin(), find_if(s.begin(), s.end(), [](int ch) { return !isspace(ch); }));
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) { return !std::isspace(ch); }));
 }
 
 // trim from end (in place)
 inline void _rtrim(string& s)
 {
-    s.erase(find_if(s.rbegin(), s.rend(), [](int ch) { return !isspace(ch); }).base(), s.end());
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) { return !std::isspace(ch); }).base(), s.end());
 }
 
 // trim from both ends (in place)
@@ -104,7 +100,7 @@ const pair<string, string> split(const string& line, const string& sep)
 // Will remove empty elements after trimming if remove_empty is true
 const vector<string> trimv(const vector<string> words)
 {
-    vector<string> trimmed_words {};
+    std::vector<string> trimmed_words {};
     string trimmed_word;
     for (const auto& word : words) {
         trimmed_word = trim(word);
@@ -118,7 +114,7 @@ const vector<string> trimv(const vector<string> words)
 // Split a string into a vector of strings
 vector<string> splitv(const string& line, const string& sep)
 {
-    vector<string> retval { ""s }; // must start with an empty string because of += below
+    std::vector<string> retval { ""s }; // must start with an empty string because of += below
     unsigned retcounter = 0;
     for (unsigned i = 0; i < len(line); i++) {
         if (line[i] == sep[0]) {
@@ -147,7 +143,7 @@ vector<string> splitv(const string& line, const string& sep)
 // Split a string into a words, and also take a char separator
 vector<string> splitv(const string& line, char sep)
 {
-    vector<string> words;
+    std::vector<string> words;
     auto word = ""s;
     for (const char& letter : line) {
         if (letter == sep) {
@@ -206,14 +202,16 @@ inline unsigned count(const string& word, const char letter)
 // Quick and dirty, no particular error checking.
 const vector<string> readlines(const string& filename)
 {
-    vector<string> lines {};
-    string line;
-    ifstream infile { filename, ifstream::in };
+    std::vector<string> lines {};
+    std::string line;
+    std::ifstream infile { filename, std::ifstream::in };
     if (infile.is_open()) {
         while (getline(infile, line)) {
-            istringstream is { line };
+            std::istringstream is { line };
             lines.push_back(is.str());
         }
+    } else {
+        std::cerr << "Could not open " << filename << std::endl;
     }
     return lines;
 }
