@@ -271,3 +271,12 @@ inline optional<const char> last(const string digits)
     }
     return optional { digits.at(dl - 1) };
 }
+
+inline bool contains(const string& s, const char& l) {
+    for (const auto& e : s) {
+        if (e == l) {
+            return true;
+        }
+    }
+    return false;
+}
