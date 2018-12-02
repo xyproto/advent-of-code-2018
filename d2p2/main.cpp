@@ -20,12 +20,12 @@ auto common(std::string sa, std::string sb)
             common += sa[i];
         }
     }
-    return pair<int,string>{counter,common};
+    return pair<int, string> { counter, common };
 }
 
 int main()
 {
-    //auto lines = trimv(readlines(DATADIR "small.txt"s));
+    // auto lines = trimv(readlines(DATADIR "small.txt"s));
     auto lines = trimv(readlines(DATADIR "input.txt"s));
 
     for (const auto& word1 : lines) {

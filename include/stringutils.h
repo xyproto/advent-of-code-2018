@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 #include <optional>
 #include <sstream>
 #include <string>
@@ -25,7 +26,8 @@ inline void _ltrim(string& s)
 // trim from end (in place)
 inline void _rtrim(string& s)
 {
-    s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) { return !std::isspace(ch); }).base(), s.end());
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) { return !std::isspace(ch); }).base(),
+        s.end());
 }
 
 // trim from both ends (in place)
@@ -200,18 +202,17 @@ inline unsigned count(const string& word, const char letter)
 
 // Read in all the lines in a text file.
 // Quick and dirty, no particular error checking.
-const vector<string> readlines(const string& filename)
+auto readlines(const std::string& filename) -> const std::vector<std::string>
 {
-    std::vector<string> lines {};
-    std::string line;
+    std::vector<std::string> lines {};
     std::ifstream infile { filename, std::ifstream::in };
-    if (infile.is_open()) {
-        while (getline(infile, line)) {
-            std::istringstream is { line };
-            lines.push_back(is.str());
-        }
-    } else {
-        std::cerr << "Could not open " << filename << std::endl;
+    if (!infile.is_open()) {
+        std::cerr << "Could not open "s << filename << std::endl;
+        return lines;
+    }
+    auto line { ""s };
+    while (getline(infile, line)) {
+        lines.push_back(line);
     }
     return lines;
 }
@@ -270,7 +271,8 @@ inline optional<const char> last(const string digits)
     return optional { digits.at(dl - 1) };
 }
 
-inline bool contains(const string& s, const char& l) {
+inline bool contains(const string& s, const char& l)
+{
     for (const auto& e : s) {
         if (e == l) {
             return true;

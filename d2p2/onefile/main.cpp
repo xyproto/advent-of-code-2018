@@ -1,12 +1,15 @@
 /*
- * Advent of Code 2018, day 2 part 2.
- * C++17. All in one source file.
- * Written by Alexander F. Rødseth, CC0 licensed.
+ * Advent of Code 2018, day 2 part 2. CC0 licensed.
+ * All in one source file, written in C++17 by Alexander F. Rødseth.
  *
- * Compilation with clang: clang++ -Ofast -std=c++17 main.cpp -o main
- * Compilation with gcc:       g++ -Ofast -std=c++17 main.cpp -o main
+ * Compilation with Clang:
+ *     clang++ -Ofast -std=c++17 main.cpp -o main
+ *
+ * Compilation with GCC:
+ *     g++ -Ofast -std=c++17 main.cpp -o main
  */
 
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -24,15 +27,14 @@ template <class T> inline auto len(const T& s) { return s.length(); }
 auto readlines(const std::string& filename) -> const std::vector<std::string>
 {
     std::vector<std::string> lines {};
-    std::string line;
     std::ifstream infile { filename, std::ifstream::in };
-    if (infile.is_open()) {
-        while (getline(infile, line)) {
-            std::istringstream is { line };
-            lines.push_back(is.str());
-        }
-    } else {
+    if (!infile.is_open()) {
         std::cerr << "Could not open "s << filename << std::endl;
+        return lines;
+    }
+    auto line { ""s };
+    while (getline(infile, line)) {
+        lines.push_back(line);
     }
     return lines;
 }
@@ -41,9 +43,9 @@ auto readlines(const std::string& filename) -> const std::vector<std::string>
 // And which characters are then left as common characters?
 auto common(std::string sa, std::string sb)
 {
-    size_t counter = 0;
-    auto common = ""s;
-    size_t minlength = std::min(len(sa), len(sb));
+    size_t counter { 0 };
+    auto common { ""s };
+    size_t minlength { std::min(len(sa), len(sb)) };
     for (size_t i = 0; i < minlength; ++i) {
         if (sa[i] != sb[i]) {
             counter++;
@@ -56,7 +58,7 @@ auto common(std::string sa, std::string sb)
 
 auto main() -> int
 {
-    auto lines = readlines("input.txt"s);
+    const auto lines { readlines("input.txt"s) };
     for (const auto& word1 : lines) {
         for (const auto& word2 : lines) {
             if (word1 == word2) {
@@ -65,9 +67,9 @@ auto main() -> int
             const auto [diffcount, commonletters] = common(word1, word2);
             if (diffcount == 1) {
                 std::cout << commonletters << std::endl;
-                return 0;
+                return EXIT_SUCCESS;
             }
         }
     }
-    return 0;
+    return EXIT_FAILURE;
 }
