@@ -63,7 +63,7 @@ inline const string trim(string s)
 // Get the length of anything with .length(), inspired by Go and Python
 template <class T> inline auto len(const T& s) { return s.length(); }
 
-// Split a string into two pairs
+// Split a string into two parts, as a pair
 const pair<string, string> split(const string& line, const string& sep)
 {
     pair<string, string> retval {};
@@ -96,6 +96,19 @@ const pair<string, string> split(const string& line, const string& sep)
         }
     }
     return retval;
+}
+
+// Trim two strings for leading and trailing spaces. Takes a pair of strings.
+auto trimpair(const pair<string, string>& s) -> const pair<string, string>
+{
+    auto [a, b] = s;
+    return pair<string, string> { trim(a), trim(b) };
+}
+
+// Separate a string into two trimmed fields.
+auto twofields(const string& s, const string& sep) -> const pair<string, string>
+{
+    return trimpair(split(s, sep));
 }
 
 // Trim all strings in a vector of strings
@@ -271,6 +284,7 @@ inline optional<const char> last(const string digits)
     return optional { digits.at(dl - 1) };
 }
 
+// check if a string contains a given character
 inline bool contains(const string& s, const char& l)
 {
     for (const auto& e : s) {
@@ -279,4 +293,18 @@ inline bool contains(const string& s, const char& l)
         }
     }
     return false;
+}
+
+// mustInt converts a string to an int, with no error handling, only error logging
+inline auto mustInt(const string& s) noexcept -> int
+{
+    int n { 0 };
+    try {
+        n = std::stoi(s);
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "std::stoi error: invalid argument: " << s << std::endl;
+    } catch (const std::out_of_range& e) {
+        std::cerr << "std::stoi error: out of range: " << s << std::endl;
+    }
+    return n;
 }
