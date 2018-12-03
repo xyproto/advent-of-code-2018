@@ -1,5 +1,7 @@
 #include "turtle.h"
 
+namespace Turtle {
+
 Turtle::Turtle(int x, int y, int direction_x, int direction_y)
 {
     _x = x;
@@ -65,4 +67,6 @@ string Turtle::str()
     s << "Turtle at (" << _x << ", " << _y << ") heading (" << _direction.first << ", "
       << _direction.second << ")";
     return s.str();
+}
+
 }

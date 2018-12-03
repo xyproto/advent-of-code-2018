@@ -33,7 +33,7 @@ void turtle_vf_test()
 
     auto vf = Vectorfield(n.width(), n.height());
 
-    auto t = Turtle(2, 2, 1, 0);
+    auto t = Turtle::Turtle(2, 2, 1, 0);
 
     cout << "--- A ---" << endl;
     cout << vf.str() << endl;

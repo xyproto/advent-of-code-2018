@@ -63,7 +63,8 @@ public:
     optional<int> twirl_sum_surrounding_quit_after(
         int q); // Return the following number after the one given
 
-    bool write(Turtle* t, int value); // write a value at the turtle position
+    // Write the value to the same position as the turtle
+    bool write(Turtle::Turtle* t, int value); // write a value at the turtle position
 };
 
 int next_twirl_sum_number(int size, int value);

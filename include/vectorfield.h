@@ -33,8 +33,8 @@ public:
     size_t width();
     size_t height();
 
-    bool write(
-        Turtle* t); // at the x,y from the turtle, write the turtle direction to the vector field
+    bool write(Turtle::Turtle*
+            t); // at the x,y from the turtle, write the turtle direction to the vector field
     bool write(int x, int y, pair<int, int> direction);
 
     optional<Vectorfield*> twirl(); // create a twirl from the center and out in spirals

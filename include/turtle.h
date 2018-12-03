@@ -8,6 +8,8 @@ using std::pair;
 using std::string;
 using std::stringstream;
 
+namespace Turtle {
+
 using p_t = pair<int, int>;
 
 class Turtle {
@@ -34,3 +36,5 @@ public:
     // bool move_turn_write(Vectorfield* vf, bool turn_left_after_moving);
     void move_turn(bool turn_left_after_moving);
 };
+
+}

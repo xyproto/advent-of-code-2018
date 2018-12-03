@@ -242,7 +242,7 @@ optional<int> Numbers::manhattan(int value)
 }
 
 // Write the value to the same position as the turtle
-bool Numbers::write(Turtle* t, int value)
+bool Numbers::write(Turtle::Turtle* t, int value)
 {
     return this->set(static_cast<size_t>(t->x()), static_cast<size_t>(t->y()), value);
 }
@@ -257,7 +257,7 @@ optional<Numbers*> Numbers::twirl()
     }
     auto counter = 1;
 
-    auto t = Turtle(static_cast<int>(w / 2), static_cast<int>(h / 2), 1, 0);
+    auto t = Turtle::Turtle(static_cast<int>(w / 2), static_cast<int>(h / 2), 1, 0);
     this->write(&t, counter++);
 
     // Run the turtle round in circles
@@ -306,7 +306,7 @@ optional<Numbers*> Numbers::twirl_sum_surrounding()
         return nullopt;
     }
 
-    auto t = Turtle(static_cast<int>(w / 2), static_cast<int>(h / 2), 1, 0);
+    auto t = Turtle::Turtle(static_cast<int>(w / 2), static_cast<int>(h / 2), 1, 0);
     this->write(&t, 1);
 
     // Run the turtle round in circles
@@ -336,7 +336,7 @@ optional<int> Numbers::twirl_sum_surrounding_quit_after(int q)
         return nullopt;
     }
 
-    auto t = Turtle(static_cast<int>(w / 2), static_cast<int>(h / 2), 1, 0);
+    auto t = Turtle::Turtle(static_cast<int>(w / 2), static_cast<int>(h / 2), 1, 0);
     auto value = 1;
     this->write(&t, value);
 

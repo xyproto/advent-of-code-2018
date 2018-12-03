@@ -122,7 +122,7 @@ bool Vectorfield::write(int x, int y, pair<int, int> direction)
 }
 
 // Write the turtle direction to the same position as the turtle in the vectorfield
-bool Vectorfield::write(Turtle* t)
+bool Vectorfield::write(Turtle::Turtle* t)
 {
     return this->set((size_t)t->x(), (size_t)t->y(), t->get_direction());
 }
@@ -136,7 +136,7 @@ optional<Vectorfield*> Vectorfield::twirl()
         return nullopt;
     }
 
-    auto t = Turtle((int)(w / 2), (int)(h / 2), 1, 0);
+    auto t = Turtle::Turtle((int)(w / 2), (int)(h / 2), 1, 0);
     this->write(&t);
 
     // Run the turtle round in circles

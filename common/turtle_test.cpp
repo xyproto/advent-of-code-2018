@@ -6,7 +6,7 @@ using std::endl;
 
 void turtle_test()
 {
-    auto t = Turtle(0, 0, 1, 0);
+    auto t = Turtle::Turtle(0, 0, 1, 0);
     cout << t.str() << endl;
 
     t.left();
