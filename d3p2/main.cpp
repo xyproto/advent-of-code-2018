@@ -1,24 +1,20 @@
-#include <algorithm>
 #include <cstdlib>
 #include <iostream>
-#include <map>
-#include <string>
 
 #include "stringutils.h"
-#include "test.h"
 
 using namespace std::string_literals;
 
 class Rect {
 private:
-    int _id;
+    int _ID;
     int _x;
     int _y;
     int _w;
     int _h;
 
 public:
-    Rect(int id, int x, int y, int w, int h);
+    Rect(const int ID, const int x, const int y, const int w, const int h);
 
     std::string str();
     bool has(int x, int y);
@@ -26,26 +22,24 @@ public:
     int max_w();
     int max_h();
 
-    vector<pair<int, int>> points();
-
     int ID();
 
     bool overlap(Rect other);
 };
 
-Rect::Rect(int id, int x, int y, int w, int h)
+Rect::Rect(const int ID, const int x, const int y, const int w, const int h)
 {
     _x = x;
     _y = y;
     _w = w;
     _h = h;
-    _id = id;
+    _ID = ID;
 }
 
 auto Rect::str() -> std::string
 {
     std::stringstream ss;
-    ss << "Rect #" << _id << " (" << _x << ", " << _y << "), " << _w << "x" << _h;
+    ss << "Rect #" << _ID << " (" << _x << ", " << _y << "), " << _w << "x" << _h;
     return ss.str();
 }
 
@@ -55,7 +49,7 @@ inline auto Rect::has(int x, int y) -> bool
 }
 
 // Check if this rectangle overlaps with another rectangle, or not
-auto Rect::overlap(Rect other) -> bool
+inline auto Rect::overlap(Rect other) -> bool
 {
     // left side of the other rectangle is to the right of this one?
     bool left = other._x > (_x + _w);
@@ -73,23 +67,11 @@ auto Rect::overlap(Rect other) -> bool
     return !(left || right || top || bot);
 }
 
-int Rect::max_w() { return _x + _w; }
+inline auto Rect::max_w() -> int { return _x + _w; }
 
-int Rect::max_h() { return _y + _h; }
+inline auto Rect::max_h() -> int { return _y + _h; }
 
-// return all points in this rectangle
-vector<pair<int, int>> Rect::points()
-{
-    vector<pair<int, int>> v {};
-    for (int y = _y; y < _h; ++y) {
-        for (int x = _x; x < _w; ++x) {
-            v.push_back(pair<int, int> { x, y });
-        }
-    }
-    return v;
-}
-
-int Rect::ID() { return _id; }
+inline auto Rect::ID() -> int { return _ID; }
 
 class Patch {
 private:
@@ -97,7 +79,7 @@ private:
 
 public:
     // Add a patch
-    void add(std::string id_pos_size);
+    void add(std::string ID_pos_size);
 
     // Number of rectangles that has this coordinate
     int count(int x, int y);
@@ -122,26 +104,26 @@ public:
 
     int overlapcount();
 
-    int no_overlap_id();
+    int no_overlap_ID();
 };
 
-void Patch::add(std::string id_pos_size)
+void Patch::add(std::string ID_pos_size)
 {
-    // std::cout << "Adding " << id_pos_size << " to patch." << std::endl;
+    // std::cout << "Adding " << ID_pos_size << " to patch." << std::endl;
 
     // Parse the given string
-    auto [hash_id, pos_size] = twofields(id_pos_size, "@");
-    auto [_, id] = twofields(hash_id, "#");
+    auto [hash_ID, pos_size] = twofields(ID_pos_size, "@");
+    auto [_, ID] = twofields(hash_ID, "#");
     auto [pos, size] = twofields(pos_size, ":");
     auto [x, y] = twofields(pos, ",");
     auto [w, h] = twofields(size, "x");
 
     // Add to patch
-    auto r = Rect(mustInt(id), mustInt(x), mustInt(y), mustInt(w), mustInt(h));
+    auto r = Rect(mustInt(ID), mustInt(x), mustInt(y), mustInt(w), mustInt(h));
     _rects.push_back(r);
 }
 
-auto Patch::count(int x, int y) -> int
+inline auto Patch::count(int x, int y) -> int
 {
     auto counter { 0 };
     for (auto& e : _rects) {
@@ -152,13 +134,13 @@ auto Patch::count(int x, int y) -> int
     return counter;
 }
 
-auto Patch::count(pair<int, int> pos) -> int
+inline auto Patch::count(pair<int, int> pos) -> int
 {
-    auto [x, y] = pos;
-    return this->count(x, y);
+    // Call the other method
+    return count(pos.first, pos.second);
 }
 
-int Patch::max_w()
+inline auto Patch::max_w() -> int
 {
     auto x { 0 };
     for (auto& e : _rects) {
@@ -169,7 +151,7 @@ int Patch::max_w()
     return x;
 }
 
-int Patch::max_h()
+inline auto Patch::max_h() -> int
 {
     auto y { 0 };
     for (auto& e : _rects) {
@@ -180,7 +162,7 @@ int Patch::max_h()
     return y;
 }
 
-int Patch::overlapcount()
+inline auto Patch::overlapcount() -> int
 {
     auto counter { 0 };
     for (int y = 0; y < this->max_h(); ++y) {
@@ -215,7 +197,7 @@ void Patch::draw()
 }
 
 // Returns the first rectangle ID with no overlaps with any other rectangle, or -1 if not found.
-int Patch::no_overlap_id()
+int Patch::no_overlap_ID()
 {
     for (auto& r1 : this->_rects) {
         // std::cout << "---" << std::endl;
@@ -251,35 +233,9 @@ int main(int argc, char** argv)
     }
 
     // p.draw();
+    // std::cout << p.str() << std::endl;
 
-    std::cout << p.str() << std::endl;
-
-    // std::cout << "TEST 1: ";
-    // equal(p.count(0,0), 0);
-
-    // std::cout << "TEST 2: ";
-    // equal(p.count(1,1), 0);
-
-    // std::cout << "TEST 3: ";
-    // equal(p.count(3,3), 2);
-
-    // std::cout << "TEST 4: ";
-    // equal(p.count(5,5), 1);
-
-    // std::cout << "TEST 5: ";
-    // equal(p.count(6,6), 1);
-
-    // std::cout << "TEST 6: ";
-    // equal(p.count(7,7), 0);
-
-    // std::cout << "TEST 7: ";
-    // equal(p.count(7,1), 0);
-
-    std::cout << std::endl;
-
-    // std::cout << "overlapcount: " << p.overlapcount() << std::endl;
-
-    std::cout << "no overlap ID: " << p.no_overlap_id() << std::endl;
+    std::cout << "no overlap ID: " << p.no_overlap_ID() << std::endl;
 
     return EXIT_SUCCESS;
 }
