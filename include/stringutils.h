@@ -62,7 +62,7 @@ vector<string> splitv(const string& line, const string& sep);
 vector<string> splitvc(const string& line, char sep);
 
 // Split a string into words, and also take a string separator
-vector<string> words(const string& line, const string& sep = " "s);
+vector<string> words(const string& line, const string& sep);
 
 // Split a string into trimmed words, and also take a char separator
 vector<string> words(const string& line, const char sep = ' ');
